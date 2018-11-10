@@ -1,0 +1,107 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#Python Template for ES2B4 Assignment
+
+#Name: Pablo Navajas Helguero
+#ID : 1604648
+#Assignment: assignment2_a2_3.py 
+#Section: A2_3
+
+### Your code below:
+
+#Import the fibonacci function from the previous exercise as a module:
+import assignment_a2_2 as a22
+
+#Impor the random library to create a list of random values
+import random  
+
+#Define our new function for the Fibonacci search algorithm
+def FibSearchAlgorithm():
+    
+    #Ask the user to introduce the length of the List of Elements
+    L = input('Choose the length of your random list: ')
+    
+    #Check if the input is a valid number
+    try:
+        L = int(L)
+    
+    except:
+        print('That\'s not a valid input. You need to enter a number. ')
+        return
+        
+    #Generate the list of random elements:
+    ListElements = sorted(random.sample(range(1001), L))
+    
+    #Print the list so that the program can be checked
+    print('')
+    print ('List of Elements: ', ListElements) 
+    print('')
+    
+    #Ask the user to introduce a guess to check if it is in the list
+    X = input('Introduce your guess X here to check if it is in ListElements: ')
+    
+    #Check if the input is a valid number
+    try:
+        X = int(X)
+    
+    except:
+        print('That\'s not a valid input. You need to enter a number. ')
+        return
+    
+    #Create the list of fibonacci numbers for the checking system
+    fibonacci = a22.fibonacci(L)
+    
+    #Set k to be the last number of the fibonacci sequence
+    k = fibonacci[-1]
+    
+    #Check if the list has a length equal to 0, if so finish here
+    if k == 0:
+            print('Stop. There is no match: X is not in the list ListElements. ')
+    
+    #If the list has values:
+    else:
+            #Create a loop that will check the X against the list of Elements until all values have been discarded
+            while k > 0:
+                
+                #Set k1 to be the element from the fibonacci sequence just before k
+                k1 = fibonacci[fibonacci.index(k) - 1]
+                
+                #Check if the element at position k1-1 matches X ('k1-1' is used as in python the first element is not the fisrt but the 0th)
+                if X == ListElements[k1-1]:
+                    #If so, print confirmation and exit loop
+                    print('')
+                    print('Yes! X is in our list ListElements')
+                    print('')
+                    break
+                #Check if X is smaller than the element at position k1-1 (reason why k1-1 is above)
+                elif X < ListElements[k1-1]:
+                    #If so, discard from the list all values bigger or equal to the one at k1-1
+                    ListElements = [ListElements[i] for i in range(0, k1-1)]
+                    #Find the length of the new list to renumber the elements in the list
+                    L2 = len(ListElements)
+                    #Change our fibonacci list so that its maximum value is as close as possible to the length of the modified list of elements
+                    fibonacci = a22.fibonacci(L2) 
+                    #Set k to be the last element of that list
+                    k = fibonacci[-1] 
+                
+                #Check if X is bigger than the element at position k1-1 (reason why k1-1 is above)
+                elif X > ListElements[k1-1]:
+                    #If so, discard from the list all values smaller or equal to the one at k1-1
+                    ListElements = [i for i in ListElements if i in range(ListElements[k1-1]+1, ListElements[-1]+1)]
+                    #Find the length of the new list to renumber the elements in the list
+                    L2 = len(ListElements)
+                    #Change our fibonacci list so that its maximum value is as close as possible to the length of the modified list of elements
+                    fibonacci = a22.fibonacci(L2) 
+                    #Set k to be the last element of that list
+                    k = fibonacci[-1] 
+            
+            #If all values have been checked, inform user that the guess is not in the list
+            else:
+                print('')
+                print('No. X is not in your list of numbers. ')
+                print('')
+
+#Check if the currect file is being executed and print the output of our function
+if __name__ == '__main__':
+
+    print(FibSearchAlgorithm())
