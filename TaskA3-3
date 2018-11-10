@@ -1,0 +1,218 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#Python Template for ES2B4 Assignment
+
+#Name: Pablo Navajas Helguero
+#ID : 1604648
+#Assignment: assignment2_a3_3.py 
+#Section: A3_3
+
+### Your code below:
+
+#Import the string library to create a list with all punctuation signs
+import string
+  
+class gibberish_class():
+    
+    def __init__(self, Sentence):
+        self.Sentence = Sentence
+    
+    def pLatin_converter(self):
+        #Set Sentence to be dependent on the class's argument self.Sentece
+        Sentence = self.Sentence
+        #Divide the Sentence into words
+        Sentence = Sentence.split()
+            
+        #Check if the input is invalid: it has no letters
+        for k in range(len(Sentence)):
+                #Create a list with all letters from each word
+                Wordlist = list(Sentence[k])
+                #Create the list of punctuation signs
+                Letters = string.ascii_letters
+                #Separate letters from punctuation signs to work independently with each list
+                Wordlett = [x for x in Wordlist if x in Letters]
+                #Check if they have at least one letter
+                if Wordlett == []:
+                    #If so, inform user and restart loop 
+                    print('You entered an invalid input. ',Sentence[k], ' is not a Word.')
+                    print('Remove it to convert your sentence. ')
+                    Sentence = False
+                    break
+                
+        #If values are valid:
+        if Sentence != False:
+                
+            #Access each Word of the sentence independently
+            for k in range(len(Sentence)):
+                    
+                    #Create a list with all letters from each word
+                    Wordlist = list(Sentence[k])
+                    #Create the list of punctuation signs
+                    Letters = string.ascii_letters
+                    #Create the list of vowels
+                    VOWELS = ['a', 'e', 'i', 'o', 'u','A','E','I','O','U']
+                    #Separate letters from punctuation signs to work independently with each list
+                    Wordlett = [x for x in Wordlist if x in Letters]
+                    #Create a list that contains all the word's vowels to 
+                    WordVowels = [y for y in Wordlist if y in VOWELS]
+                    #Create the list of non characters
+                    NonChar = string.digits + string.punctuation
+                    #Create a list of all non characters to add them at the end of the word
+                    WordPunc = [y for y in Wordlist if y in NonChar]
+                    
+                    #Save the initial letter to check if it starts with a vowel or a consonant
+                    a = Wordlett[0]
+                    #Check if the word has no vowels
+                    if not WordVowels:
+                        #If so, move the first consonant and the Punctuation to the end and add 'hay'
+                        Wordlett.remove(a)
+                        Wordlett.append(a)
+                        NewWord = Wordlett + WordPunc
+                        NewWord.append('hay ')
+                                
+                    #Check if the word starts by a vowel
+                    elif a in VOWELS:
+                        #If so, then move the Punctuation signs and add 'way'
+                        NewWord = Wordlett + WordPunc
+                        NewWord.append('way ')
+                        
+                    #If it starts by a consonant but contains at least one vowel
+                    else:
+                        #Create a list that contains all letters from the first vowel to the end
+                        WordStart = [Wordlett[i] for i in range(Wordlett.index(WordVowels[0]),len(Wordlett))]
+                        #Create a list that contains all consonants before the first vowel
+                        WordEndlett = [Wordlett[n] for n in range(0,Wordlett.index(WordVowels[0]))]
+                        #Combine the list to obtain our desired output (letters from vowel to the end, followed by the consonants which were before the first vowel, and next, the Punctuation signs)
+                        NewWord = WordStart + WordEndlett + WordPunc
+                        #Finally append 'ay'
+                        NewWord.append('ay ')
+                        
+                    #Join the elements of the final list and print them as the final word
+                    Sentence[k] = ''.join(str(e) for e in NewWord)
+                    
+            #Join the words to form a single sentence and return it
+            NewSentence =''.join(Sentence)
+            return NewSentence
+    
+    def gibberish_converter(self):
+        
+        #Set Sentence to be dependent on the class's argument self.Sentece
+        Sentence = self.Sentence
+        #Divide the Sentence into words
+        Sentence = Sentence.split()
+        #Create the list of vowels
+        VOWELS = ['a', 'e', 'i', 'o', 'u','A','E','I','O','U']
+        #Create the infix
+        infix = 'idig'
+        
+        #Divide the word so as to work with each letter
+        for a in range(len(Sentence)):
+            
+            #Create a list with all letters from each word
+            Wordlist = list(Sentence[a])
+            #Create list with all vowels
+            WordVowels = [y for y in Wordlist if y in VOWELS]
+            
+            #Check if there are no Vowels in the Word
+            if not WordVowels:
+                #If so, don't modify it
+                Wordlist.append(' ')
+                NewWord = Wordlist
+                    
+            #If there are Vowels
+            else:
+                #Find the positions of the vowels
+                Vpositions = [Wordlist.index(x) for x in Wordlist if x in VOWELS]
+                
+                #Create two lists to check if the Vowels are repeated: save only unique values
+                Repeated = set()
+                UniVals = []
+                #Check if the positions are repeated (Vowels are repeated)
+                for n in Vpositions:
+                    #If an element is not in the list add it
+                    if n not in Repeated: 
+                        UniVals.append(n)
+                        Repeated.add(n)
+                
+                #If the list of Positions is longer than the list of unique values: vowels are repeated
+                if len(Vpositions) > len(UniVals):
+                    #Add the infix before every vowel
+                    for k in range(0,len(Wordlist)):
+                        if Wordlist[k] in VOWELS:
+                            Wordlist[k] = infix + Wordlist[k]
+                            #This code could be use for the entire condition but I developped the other code before (I prefered to leave it to show my work)
+                    
+                    Wordlist.append(' ')
+                    NewWord = Wordlist
+                
+                #If Vowels not repeated:
+                else:
+                    #Insert infix in the position of the vowel
+                    for i in range(0,len(WordVowels)):
+                        x = Vpositions[i]
+                        #As x is dependent on i: the position where the vowel is inserted is adjusted after adding other vowels before
+                        Wordlist.insert(x + i, infix)
+                        
+                    Wordlist.append(' ')
+                    NewWord = Wordlist
+            
+            #Combine the letters to form Words
+            Sentence[a] = ''.join(NewWord)
+        #Combine the Words to form the new sentence
+        strNewSentence =''.join(Sentence)
+        return strNewSentence
+
+#Try two sentences using a couple invocations from the main part of the program
+if __name__ == '__main__':
+    
+    #As it is, it will print the result of both examples from A1_2 and A1_2:
+    print('')
+    MyFirstSentence = gibberish_class('First #1Trial PNH')
+    print('#1Trial: ', MyFirstSentence.gibberish_converter())
+    print('')
+    MySecondSentence = gibberish_class('Seem\'s to be working! !Awesome' )
+    print('#2Trial: ', MySecondSentence.gibberish_converter())      
+    print('')
+    
+    #Now we create the file with the testing sentences
+    f = open("gibberish_tests.txt","w+")
+    #Using the command \n to separate lines
+    f.write("Trial and error \n"
+            "h.123ay abcd \n"
+            "This is a test \n"
+            "Try,d cry;d fry my \n")
+    #We close the program to avoid issues
+    f.close()
+    
+    #We read the file (this format reduces the risk of issues as we do not need to close the file)
+    with open("gibberish_tests.txt") as gib:
+        tests = gib.read()
+    
+    #We ensure that the program will read each sentence independently
+    test1 = tests.split('\n',1)[0]
+    test2 = tests.split('\n',2)[1]
+    test3 = tests.split('\n',3)[2]
+    test4 = tests.split('\n',4)[3]
+    
+    #For each sentence the program will run both conversion methods and print their result
+    for T in (test1, test2, test3, test4):
+        newTrial = gibberish_class(T)
+        print('')
+        print('Gibberish New Trial: ', newTrial.gibberish_converter())
+        print('PigLatin New Trial: ', newTrial.pLatin_converter())
+        print('')
+        
+        #Now we create and edit a new file with to save the sentences transformed using the pigLatin converter
+        f = open("pigLatined.txt","a")
+        f.write(newTrial.pLatin_converter())
+        f.write('\n')
+        #We close the program to avoid issues
+        f.close()
+        
+        #Now we create and edit a new file with to save the sentences transformed using the gibberish converter
+        f = open("gibberished.txt","a")
+        f.write(newTrial.gibberish_converter())
+        f.write('\n')
+        #We close the program to avoid issues
+        f.close()
+        
