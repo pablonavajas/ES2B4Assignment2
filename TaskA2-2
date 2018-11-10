@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#Python Template for ES2B4 Assignment
+
+#Name: Pablo Navajas Helguero
+#ID : 1604648
+#Assignment: assignment_a2_2.py 
+#Section: A2_2
+
+### Your code below:
+
+#To prevent the program from being too slow we allow it to save values
+from functools import lru_cache
+
+#We use 'lru_cache' to store our values and set its maximum capacity to 1000 (to avoid problems)
+@lru_cache(maxsize = 1000)
+
+#We create a function that calculates the fibonacci sequence of a number 'i' to use it later in our function
+def fibonacciCalc(i):
+    
+    #Set the first value of the series to 0
+    if i == 0:
+        return 0
+    #Set the second value of the series to 1
+    elif i == 1:
+        return 1
+    #Create an expresion that can calculate the fibonacci sequence for other values
+    else:
+        return fibonacciCalc(i-1) + fibonacciCalc(i-2)
+
+#We create a function that calculates the fibonacci sequence up to a Stop Parameter
+def fibonacci(Parameter):
+    #Create a list to store the values smaller than the stop Parameter
+    Fiblist = []
+    #Offer a big sequence range to ensure the stop Parameter will be in the range
+    for i in range(0,1000):
+        
+        #Check which values are smaller than the stop Parameter
+        if fibonacciCalc(i) < Parameter:
+            #Add those values to our list (Fiblist)
+            Fiblist.append(fibonacciCalc(i))
+            
+        #Create a new list with all values up to the first one bigger than the Parameter
+        Solution = []
+        for i in range(-1, len(Fiblist)):
+            Solution.append(fibonacciCalc(i+1))
+        
+    #Print the list as our solution
+    return Solution
+
+#Check if the currect file is being executed and print the output of our function
+if __name__ == '__main__':
+
+    print(fibonacci(100))
