@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#Python Template for ES2B4 Assignment
+
+#Name: Pablo Navajas Helguero
+#ID : 1604648
+#Assignment: assignment2_a3_1.py 
+#Section: A3_1
+
+### Your code below:
+   
+#Import the string library to create a list with all punctuation signs
+import string
+
+class pLatin_class(object):
+    
+    #Create the list of vowels as a static variable
+    VOWELS = ['a', 'e', 'i', 'o', 'u','A','E','I','O','U']
+    
+    def __init__(self, Sentence):
+        #Set Sentence to be an argument of our class
+        self.Sentence = Sentence
+        
+    def pLatin_converter(self):
+
+        #Set Sentence to be dependent on the class's argument self.Sentece
+        Sentence = self.Sentence
+        #Divide the Sentence into words
+        Sentence = Sentence.split()
+            
+        #Check if the input is invalid: it has no letters
+        for k in range(len(Sentence)):
+                #Create a list with all letters from each word
+                Wordlist = list(Sentence[k])
+                #Create the list of punctuation signs
+                Letters = string.ascii_letters
+                #Separate letters from punctuation signs to work independently with each list
+                Wordlett = [x for x in Wordlist if x in Letters]
+                #Check if they have at least one letter
+                if Wordlett == []:
+                    #If so, inform user and restart loop 
+                    print('You entered an invalid input. ',Sentence[k], ' is not a Word.')
+                    print('Remove it to convert your sentence. ')
+                    Sentence = False
+                    break
+                
+        #If values are valid:
+        if Sentence != False:
+                
+            #Access each Word of the sentence independently
+            for k in range(len(Sentence)):
+                    
+                    #Create a list with all letters from each word
+                    Wordlist = list(Sentence[k])
+                    #Create the list of punctuation signs
+                    Letters = string.ascii_letters
+                    #Create the list of vowels
+                    VOWELS = ['a', 'e', 'i', 'o', 'u','A','E','I','O','U']
+                    #Separate letters from punctuation signs to work independently with each list
+                    Wordlett = [x for x in Wordlist if x in Letters]
+                    #Create a list that contains all the word's vowels to 
+                    WordVowels = [y for y in Wordlist if y in VOWELS]
+                    #Create the list of non characters
+                    NonChar = string.digits + string.punctuation
+                    
+                    
+                    #Save the initial letter to check if it starts with a vowel or a consonant
+                    a = Wordlett[0]
+                    #Check if the word has no vowels
+                    if not WordVowels:
+                        #If so, move the first consonant to the end and add 'way'
+                        Wordlist.remove(a)
+                        Wordlist.append(a)
+                        Wordlist.append('way ')
+                        NewWord = Wordlist
+                            
+                    #Check if the word starts by a vowel
+                    elif a in VOWELS:
+                        #If so, add 'hay'
+                        NewWord = Wordlist
+                        NewWord.append('hay ')
+                        
+                    #If it starts by a consonant but contains at least one vowel
+                    else:
+                        #Create a list that contains all the word's characters from the vowel until the end
+                        WordStart = [Wordlist[i] for i in range(Wordlist.index(WordVowels[0]),len(Wordlist))]
+                        #Create a list that contains all the word's characters from the beginning until the first vowel
+                        WordToVowel = [Wordlist[n] for n in range(0,Wordlist.index(WordVowels[0]))]
+                        #Extract the letters from the previous list (WordToVowel): this new list will contain all consonants until the first vowel
+                        WordEndlett = [w for w in WordToVowel if w not in NonChar]
+                        #Extract the non characters from the WordToVowel list: this new list will contain all punctuation marks until the first vowel
+                        StartNonChar = [z for z in WordToVowel if z in NonChar]
+                        #Combine the lists to produce the desired outcome (non characters will remain at their original position, and letters until the first vowel will be moved to the end of the Word)
+                        NewWord = StartNonChar + WordStart + WordEndlett
+                        #Finally, add 'ay'
+                        NewWord.append('ay ')
+                        
+                    #Join the elements of the final list and print them as the final word
+                    Sentence[k] = ''.join(str(e) for e in NewWord)
+                    
+            #Join the words to form a single sentence and return it
+            NewSentence =''.join(Sentence)
+            return NewSentence
+            
+#Try two sentences using a couple invocations from the main part of the program
+if __name__ == '__main__':
+    #As it is, print the result of both trials:
+    
+    print('')
+    print('Examples from the pLatin_class: ')
+    print('')
+    MyFirstSentence = pLatin_class('First #1Trial PNH')
+    print('#1Trial: ', MyFirstSentence.pLatin_converter())
+    
+    MySecondSentence = pLatin_class('Seem\'s to be working! !Awesome' )
+    print('#2Trial: ', MySecondSentence.pLatin_converter())
