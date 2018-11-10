@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#Python Template for ES2B4 Assignment
+
+#Name: Pablo Navajas Helguero
+#ID : 1604648
+#Assignment: assignment2_a1_1.py 
+#Section: A1_1
+
+### Your code below:
+
+#Set Word to False to create an infinite loop
+Word = False
+#Create loop
+while Word == False:
+        #Ask user to introduce a word
+        Word = input('ENTER YOUR WORD: ')
+        #Establsih the exit condition
+        if Word == 'exit':
+            print('Exiting from the program!')
+            break
+        
+        #Divide the word so as to work with each letter
+        Wordlist = list(Word)
+        #Create the list of Vowels
+        VOWELS = ['a', 'e', 'i', 'o', 'u','A','E','I','O','U']
+        a = Wordlist[0]
+        #Check if the word starts by a Vowel
+        if a in VOWELS:
+            #If so add 'hay'
+            Wordlist.append('hay')
+        #If it does not start by vowel add only 'ay'
+        else:
+            Wordlist.remove(a)
+            Wordlist.append(a)
+            Wordlist.append('ay')
+        
+        NewWord = ''.join(str(e) for e in Wordlist)
+        print('Your word converted to Pig-Latin is: ', NewWord)
+                        
+        Word = False
